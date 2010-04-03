@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+ Copyright (C) 2010 by Mathias Menninghaus (mmenning (at) uos (dot) de)
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+
+	<!-- Not yet translated -->
+
+	<string name="app_name">Geo Viewer</string>
+	<string name="preferences">Preferences</string>
+	<string name="choose_layer">Choose a layer</string>
+	<string name="ogl_view">3D View</string>
+	<string name="map_view">Map</string>
+	<string name="chart_view">Charts</string>
+	<string name="layers">Layers</string>
+
+	<string name="filemanager">File Manager</string>
+	<string name="manage_your_files">Manage Your Files</string>
+
+	<string name="surfacevisualizer_clear_text">Load Data from the Net or File System</string>
+	<string name="surfacevisualizer_default_name">
+		No elements available
+	</string>
+	<string name="failure">Failure</string>
+	<string name="fill">fill</string>
+	<string name="visible">visible</string>
+
+	<string name="load_url">Load from URL</string>
+	<string name="load_file">Load from File</string>
+	<string name="save">Save</string>
+	<string name="save_to_file">Save to File</string>
+	<string name="select_file">Select a File</string>
+	<string name="choose_layer_menu">Choose Layer Menu</string>
+
+	<string name="confirm">Confirm</string>
+	<string name="loadingfailure">Loading Failure</string>
+	<string name="numberformatexc">Invalid number format in requested data.</string>
+	<string name="tsexc">Requested data is not in GOCAD format.</string>
+	<string name="ioexc">Connection failed. Please try again later, check your connection, or the server support for this service.</string>
+	<string name="parsconfigex">Sorry! Parser Configuration Exception. Please inform me about this.</string>
+	<string name="feedex">Exception while parsing Feed.</string>
+	<string name="illargex">Url not a valid.</string>
+	<string name="saxex">Sorry! Exception while parsing. Check server support for this service.</string>
+	<string name="mlfurlex">The requested URL is malformed.</string>
+	<string name="connectex">Connection refused. Try again later or check your connection.</string>
+	<string name="unknownhex">Requested Host is unknown. Try again later or check your connection.</string>
+	<string name="load">Load</string>
+	<string name="cancel">Cancel</string>
+	<string name="up">Up</string>
+	<string name="down">Down</string>
+	<string name="transparency">Transparency</string>
+
+	<string name="context_menu">Context Menu</string>
+
+	<string name="loading..">Loading, Please Wait</string>
+	<string name="saving..">Saving, Please Wait</string>
+
+	<string name="latitude">Latitude</string>
+	<string name="longitude">Longitude</string>
+
+	<string name="no_location_provider_enabled">No Location Provider enabled</string>
+	<string name="my_location">My Location</string>
+	<string name="reset_position">Reset Position</string>
+
+	<string name="provider_disabled">Provider has been disabled</string>
+	<string name="provider_enabled">Provider has been enabled</string>
+
+	<string name="changed_to_network">Location Provider changed to Network</string>
+	<string name="changed_to_gps">Location Provider changed to GPS</string>
+	<string name="provider_temporarily_unavailable">Provider is temporarily unavailable</string>
+
+	<string name="fullgraphics_title">High Graphic Preferences</string>
+	<string name="fullgraphics_summary">Enable Gourad Shading, Lighting, Dithering and
+		Blending</string>
+
+	<string name="wms">Web Map Service</string>
+	<string name="layerview_attribution_source">Map Source</string>
+	<string name="containingLayers">Containing Layers</string>
+	<string name="delete">Delete</string>
+	<string name="addwms">Add Web Map Service</string>
+	<string name="srs_not_definite">The selected SRS are not definite for the visible
+		Layers</string>
+	<string name="no_srs">No SRS Selected</string>
+	<string name="no_png">This WMS does not support Maps in png Format
+	</string>
+	<string name="wrongversion">This WMS is not in required Version 1.1.1</string>
+	<string name="no_getMapURL">There was no URL for GetMap request found</string>
+	<string name="srs_not_ideal">The selected SRS is not the ideal for displaying in
+		Map </string>
+	<string name="srs_not_recommended">The selected SRS is not the recommended in Map
+	</string>
+	<string name="select_srs">Select a SRS</string>
+	<string name="load_wms">Load a WMS</string>
+	<string name="wms_summary">Manage Web Map Services. Change Visibility of
+		Services and Layers, their Spatial Reference System or add new ones
+	</string>
+
+	<string name="add_georss"> Add GeoRSS Feed</string>
+	<string name="load_georssfeed">Load GeoRSS Feed</string>
+	<string name="georss">GeoRSS Feeds</string>
+	<string name="synchronize">Synchronize</string>
+	<string name="markread">Mark all Read</string>
+
+	<string name="maxentries_title">Capacity</string>
+	<string name="maxentries_summary">The maximum number of entries that will be cached
+		locally</string>
+	<string name="choosecolor">Set Color</string>
+	<string name="gobackfast">Back to Map</string>
+	<string name="showinmap">Show in Map</string>
+	<string name="showoriginalentry">Original Entry</string>
+
+	<string name="enablegooglemaps_title">Google Maps</string>
+	<string name="enablegooglemaps_summary">Underlay the MapView with GoogleMaps</string>
+
+	<string name="enabletransparency_title">Transparency</string>
+	<string name="enabletransparency_summary">Make all Web Map Service Layers semitransparent
+	</string>
+
+	<string name="config_overlays">Configuring Overlays</string>
+
+	<string name="choose_feature">Choose a Feature</string>
+	<string name="updateall">Update all Measurements</string>
+	<string name="updateavailable">Update available Measurements</string>
+
+	<string name="load_sos">Load a SOS</string>
+	<string name="add_sos">Add a SOS</string>
+	<string name="choose_offering">Choose an Offering</string>
+	<string name="choose_property">Choose a Property</string>
+
+	<string name="sos">Sensor Observation Service</string>
+
+	<string name="requestperiodtitle">Request Period</string>
+	<string name="requestperiodsummary">Maximum period of each Request for a SOS</string>
+
+	<string name="storeperiodtitle">Storing Period</string>
+	<string name="storeperiodsummary">Maximum period of data that will be stored locally
+	</string>
+
+	<string name="period">Period</string>
+
+	<string name="measurementactivity_failtext">There is no such Measurement stored. Click the
+		button below to try loading. Remind the time period of your request.
+	</string>
+
+	<string name="no_data">No Data</string>
+	<string name="invalid_pos_warning">This Measurement does not contain valid GeoData to
+		be displayed in the map. The service has to provide WGS84 (EPSG:4326)</string>
+	<string name="warning">Warning</string>
+	<string name="deleting...">Deleting, Please wait.</string>
+	
+	<string name="enablesatellitetitle">Satellite Tiles</string>
+	<string name="enablesatellitesummary">Enable Satellite Tiles. May change the zoom level.</string>
+</resources>
