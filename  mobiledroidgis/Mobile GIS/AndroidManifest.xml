@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="mmenning.mobilegis" android:versionCode="1"
+	android:versionName="1.0.0">
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+	<uses-permission android:name="android.permissions.ACCESS_COARSE_LOCATION"></uses-permission>
+	<application android:icon="@drawable/icon" android:label="@string/app_name"
+		android:debuggable="true">
+		<uses-library android:name="com.google.android.maps" />
+		<activity android:name=".map.MainMap" android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".surface3d.SurfaceVisualizer"
+			android:label="@string/ogl_view" />
+		<activity android:name=".Preferences" android:label="@string/preferences"/>
+		<activity android:name=".map.wms.WMSActivity" android:label="@string/wms"/>
+		<activity android:name=".map.wms.WMSLayerActivity" android:label="@string/wms"/>
+		<activity android:name=".map.georss.GeoRSSActivity" android:label="@string/georss"/>
+		<activity android:name=".map.georss.GeoRSSEntryActivity" android:label="@string/georss"/>
+		<activity android:name=".map.georss.GeoRSSEntriesActivity" android:label="@string/georss"/>
+		<activity android:name=".map.sos.SOSActivity" android:label="@string/sos"/>
+		<activity android:name=".map.sos.MeasurementActivity" android:label="@string/sos"/>
+	</application>
+</manifest>

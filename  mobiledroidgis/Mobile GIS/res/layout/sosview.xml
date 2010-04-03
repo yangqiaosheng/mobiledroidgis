@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+ Copyright (C) 2010 by Mathias Menninghaus (mmenning (at) uos (dot) de)
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<mmenning.mobilegis.map.sos.SOSView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:paddingRight="?android:attr/scrollbarSize" android:orientation="vertical"
+	android:background="@android:drawable/list_selector_background" 
+	android:clickable="true" android:focusable="true">
+
+	<include layout="@layout/seperator" />
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:minHeight="?android:attr/listPreferredItemHeight"
+		android:layout_marginLeft="15dip" android:layout_marginRight="6dip"
+		android:layout_marginTop="3dip" android:layout_marginBottom="3dip">
+		<LinearLayout android:layout_width="wrap_content"
+			android:layout_height="fill_parent" android:orientation="vertical"
+			android:layout_marginRight="3dip" android:id="@+id/sosview:colorlabel">
+			<CheckBox android:id="@+id/sosview:visible"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_gravity="center" android:button="@drawable/vis_btn" />
+			<CheckBox android:id="@+id/sosview:expand"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_gravity="center" android:button="@drawable/exp_btn" />
+		</LinearLayout>
+
+		<LinearLayout android:layout_width="wrap_content"
+			android:layout_height="fill_parent" android:orientation="vertical"
+			android:paddingLeft="3dip">
+
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
+				android:id="@+id/sosview:title" android:ellipsize="marquee"
+				android:fadingEdge="horizontal" android:text="title"
+				android:singleLine="true" />
+
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall"
+				android:id="@+id/sosview:membercount" android:ellipsize="marquee"
+				android:fadingEdge="horizontal" android:text="title"
+				android:singleLine="true" />
+
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall"
+				android:id="@+id/sosview:description" android:ellipsize="marquee"
+				android:fadingEdge="horizontal" android:text="description"
+				android:singleLine="true" />
+
+
+		</LinearLayout>
+
+
+	</LinearLayout>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:orientation="vertical"
+		android:paddingLeft="3dip">
+		<Button android:id="@+id/sosview:offering"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginLeft="15dip" android:layout_marginRight="6dip"
+			android:layout_marginTop="3dip" android:layout_marginBottom="3dip"
+			android:text="@string/choose_offering" android:drawableRight="@drawable/expand_32" />
+
+		<Button android:id="@+id/sosview:property"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginLeft="15dip" android:layout_marginRight="6dip"
+			android:layout_marginTop="3dip" android:layout_marginBottom="3dip"
+			android:text="@string/choose_property" android:drawableRight="@drawable/expand_32" />
+
+		<Button android:id="@+id/sosview:feature" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_marginLeft="15dip"
+			android:layout_marginRight="6dip" android:layout_marginTop="3dip"
+			android:layout_marginBottom="3dip" android:text="@string/choose_feature"
+			android:drawableRight="@drawable/expand_32" />
+	</LinearLayout>
+</mmenning.mobilegis.map.sos.SOSView>

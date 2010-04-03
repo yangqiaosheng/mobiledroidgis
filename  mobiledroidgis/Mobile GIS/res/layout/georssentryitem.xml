@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+ Copyright (C) 2010 by Mathias Menninghaus (mmenning (at) uos (dot) de)
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<mmenning.mobilegis.map.georss.GeoRSSEntryItemView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:orientation="vertical" android:minHeight="?android:attr/listPreferredItemHeight"
+	android:clickable="true" android:focusable="true"
+	android:background="@android:drawable/list_selector_background">
+
+	<include layout="@layout/seperator" />
+
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:orientation="horizontal">
+		<LinearLayout android:layout_width="wrap_content"
+			android:layout_height="fill_parent" android:orientation="vertical"
+			android:layout_marginRight="3dip">
+			<CheckBox android:id="@+id/georssentryitem:read"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_gravity="center" android:focusable="false"
+				android:clickable="false" android:button="@drawable/check_btn_read" />
+		</LinearLayout>
+
+		<LinearLayout android:layout_width="wrap_content"
+			android:layout_height="fill_parent" android:orientation="vertical"
+			android:paddingLeft="3dip">
+
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
+				android:id="@+id/georssentryitem:title" android:ellipsize="marquee"
+				android:fadingEdge="horizontal" android:text="title"
+				android:singleLine="true" />
+
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall"
+				android:id="@+id/georssentryitem:time" android:ellipsize="marquee"
+				android:fadingEdge="horizontal" android:text="time"
+				android:singleLine="true" />
+		</LinearLayout>
+	</LinearLayout>
+</mmenning.mobilegis.map.georss.GeoRSSEntryItemView>

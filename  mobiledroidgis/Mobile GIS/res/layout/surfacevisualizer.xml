@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+ Copyright (C) 2010 by Mathias Menninghaus (mmenning (at) uos (dot) de)
+ 
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="wrap_content"
+	android:layout_height="wrap_content">
+
+	<FrameLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_weight="1"
+		android:orientation="vertical">
+
+		<!-- ogles view-->
+		<android.opengl.GLSurfaceView android:id="@+id/surfacevisualizer:glsurfaceview"
+			android:layout_width="fill_parent" android:layout_height="fill_parent" />
+
+		<LinearLayout android:orientation="vertical"
+			android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+
+			<LinearLayout android:orientation="vertical"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:gravity="bottom" android:layout_weight="5">
+
+				<!-- zoom, walk and rotates control -->
+				<LinearLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal"
+					android:gravity="center_horizontal">
+					<!-- switch touch options button -->
+					<mmenning.mobilegis.surface3d.Controls3D
+						android:id="@+id/surfacevisualizer:switchtouchopt"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:gravity="center_horizontal" />
+				</LinearLayout>
+			</LinearLayout>
+
+			<!-- chooser view-->
+			<LinearLayout android:id="@+id/surfacevisualizer:chooserview"
+				android:gravity="bottom" android:visibility="gone"
+				android:orientation="vertical" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:layout_weight="1">
+				<!-- name of the object as title -->
+				<TextView android:id="@+id/surfacevisualizer:tsbject_name"
+					android:layout_width="fill_parent" android:textColor="#ffffff"
+					android:layout_height="wrap_content" android:textSize="20sp"
+					android:text="@string/surfacevisualizer_default_name"
+					android:gravity="center" android:layout_weight="1" />
+				<!-- all buttons side by side -->
+				<LinearLayout android:layout_width="fill_parent"
+					android:orientation="horizontal" android:gravity="center_horizontal"
+					android:layout_height="wrap_content" android:layout_weight="1">
+
+					<Button android:id="@+id/surfacevisualizer:backwardButton"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:layout_weight="1" android:background="@drawable/arrow_left_48"/>
+					<CheckBox android:id="@+id/surfacevisualizer:fillButton"
+						android:text="@string/fill" android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:layout_weight="2"
+						android:button="@drawable/check_btn_less" />
+					<CheckBox android:id="@+id/surfacevisualizer:visibleButton"
+						android:text="@string/visible" android:layout_width="wrap_content"
+						android:layout_height="wrap_content" android:layout_weight="2"
+						android:button="@drawable/check_btn_less" />
+					<Button android:id="@+id/surfacevisualizer:forwardButton"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:layout_weight="1" android:background="@drawable/arrow_right_48" />
+				</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+	</FrameLayout>
+</LinearLayout>
