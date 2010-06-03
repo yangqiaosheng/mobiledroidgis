@@ -20,18 +20,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.HttpURLConnection;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.LinkedList;
 
-import android.util.Log;
-
 import android.graphics.Color;
+import android.util.Log;
 
 /**
  * Connects to an GOCAD (*.ts) File via HTTP or FileSystem and reads the objects
@@ -41,7 +39,7 @@ import android.graphics.Color;
  * class. By reading the data, each object is translated into the center of the
  * scene (the center of all objects)
  * 
- * @version 07.10.2009
+ * @version 03.06.2010
  * 
  * @author Mathias Menninghaus
  */
@@ -146,7 +144,7 @@ public class GOCADConnector {
 			 * open a new connection
 			 */
 			BufferedReader in = new BufferedReader(new FileReader(file));
-			
+
 			String actline = in.readLine();
 			/*
 			 * search for 'HEAD'
@@ -155,6 +153,7 @@ public class GOCADConnector {
 			while (actline != null) {
 
 				if (actline.startsWith("HEAD")) {
+
 					/*
 					 * and if found generate a new OGLLayer
 					 */
@@ -179,13 +178,13 @@ public class GOCADConnector {
 	}
 
 	/**
-	 * Opens HTTP-Connection to the url. For every 'HEAD' read a new OGLLayer is
-	 * generated and filled until 'END' is reached.
+	 * Parses InputStream For every 'HEAD' read a new OGLLayer is generated and
+	 * filled until 'END' is reached.
 	 * 
 	 * @return the read data
 	 * 
-	 * @param link
-	 *            full paths of the urls. should be *.ts Files in GOCAD-format
+	 * @param input
+	 *            InputStream from the Source to be parsed
 	 * @throws IOException
 	 *             if an I/O error occurs
 	 * @throws NumberFormatException
@@ -193,8 +192,8 @@ public class GOCADConnector {
 	 * @throws TSFormatException
 	 *             if the file is inconsistent and not in GOCAD-format
 	 */
-	public LinkedList<OGLLayer> requestTS(String[] urls) throws IOException,
-			NumberFormatException, TSFormatException {
+	public LinkedList<OGLLayer> requestTS(HttpURLConnection input)
+			throws IOException, NumberFormatException, TSFormatException {
 
 		resetBounds();
 
@@ -203,41 +202,38 @@ public class GOCADConnector {
 		 */
 		tsObjects = new LinkedList<OGLLayer>();
 
+		input.connect();
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(input
+				.getInputStream()));
+
+		String actline = in.readLine();
 		/*
-		 * for each url
+		 * search for 'HEAD'
 		 */
-		for (String url : urls) {
-			/*
-			 * open a new connection
-			 */
-			BufferedReader in = OpenHttpConnection(url);
 
-			String actline = in.readLine();
-			/*
-			 * search for 'HEAD'
-			 */
-
-			while (actline != null) {
-
-				if (actline.startsWith("HEAD")) {
-					/*
-					 * and if found generate a new OGLLayer
-					 */
-					tsObjects.add(readTSObject(in));
-				}
-				actline = in.readLine();
+		while (actline != null) {
+			if (actline.startsWith("HEAD")) {
+				/*
+				 * and if found generate a new OGLLayer
+				 */
+				tsObjects.add(readTSObject(in));
 			}
-			/*
-			 * important: close the stream for every file
-			 */
-			in.close();
-			/*
-			 * if no 'HEAD' was read the File is incomplete
-			 */
-			if (tsObjects.isEmpty()) {
-				throw new TSFormatException("No GOCAD Objects found in " + url);
-			}
+			actline = in.readLine();
 		}
+		/*
+		 * important: close the stream for every file
+		 */
+		in.close();
+
+		input.disconnect();
+		/*
+		 * if no 'HEAD' was read the File is incomplete
+		 */
+		if (tsObjects.isEmpty()) {
+			throw new TSFormatException("No GOCAD Objects found");
+		}
+
 		return correctAll();
 	}
 
@@ -275,27 +271,6 @@ public class GOCADConnector {
 	}
 
 	/**
-	 * Opens Stream for the url.
-	 * 
-	 * @param urlString
-	 * @return InputStream the stream or null
-	 * @throws IOException
-	 */
-	private static BufferedReader OpenHttpConnection(String urlString)
-			throws IOException {
-		InputStream in = null;
-
-		try {
-			URL url = new URL(urlString);
-			in = url.openStream();
-		} catch (IOException ex) {
-			Log.w(DT, "IOException", ex);
-			throw ex;
-		}
-		return new BufferedReader(new InputStreamReader(in));
-	}
-
-	/**
 	 * Reads in a single TSObject. It assumes that a 'HEAD' already has been
 	 * read. Only fills LínkedLists of the OGLLayer so it is recommended to use
 	 * the convert method!
@@ -326,7 +301,7 @@ public class GOCADConnector {
 
 		String[] parsed = null;
 		String actline = in.readLine();
-		
+
 		/*
 		 * get every line
 		 */
@@ -346,13 +321,21 @@ public class GOCADConnector {
 					 * read in the color if available and transform it in
 					 * Android-format
 					 */
-					actline = actline.substring(13);
+					actline = actline.substring(13).trim();
 					parsed = actline.split(" ");
 					if (parsed.length >= 3) {
-						ret.color = Color.rgb(
-								(int) (Float.valueOf(parsed[0]) * 255),
-								(int) (Float.valueOf(parsed[1]) * 255),
-								(int) (Float.valueOf(parsed[2]) * 255));
+						try {
+							ret.color = Color.rgb((int) (Float
+									.valueOf(parsed[0]) * 255), (int) (Float
+									.valueOf(parsed[1]) * 255), (int) (Float
+									.valueOf(parsed[2]) * 255));
+						} catch (NumberFormatException ex) {
+							Log
+									.w(DT, "Color not well formated: "
+											+ actline, ex);
+							throw new NumberFormatException(
+									"Color not well formated: " + actline);
+						}
 					}
 
 				} else if (actline.startsWith("}")) {

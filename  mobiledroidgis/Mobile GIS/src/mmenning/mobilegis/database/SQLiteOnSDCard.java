@@ -21,6 +21,7 @@ import java.io.File;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
 /**
  * Manages the Connection to a SQLITE Database on the SDCard. The Database will
@@ -33,7 +34,7 @@ public abstract class SQLiteOnSDCard {
 
 	private static final String DT = "SQLiteOnSDCard";
 
-	private static final String SDCARD = "/sdcard";
+	private static final String SDCARD = Environment.getExternalStorageDirectory().getAbsolutePath();
 
 	private SQLiteDatabase db;
 
@@ -50,7 +51,7 @@ public abstract class SQLiteOnSDCard {
 	 */
 	public SQLiteOnSDCard(Context context, String name, int version) {
 		db = null;
-
+		
 		String fullpath = SDCARD + File.separator + context.getPackageName()
 				+ File.separator + name;
 		try {

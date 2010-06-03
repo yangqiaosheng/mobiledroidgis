@@ -21,7 +21,7 @@
 	<mmenning.mobilegis.map.MyMapView
 		android:id="@+id/mapView:mapView" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:enabled="true"
-		android:clickable="true" android:apiKey="insertApiKey" />
+		android:clickable="true" android:apiKey="" />
 
 	<mmenning.mobilegis.map.MapControls
 		android:id="@+id/mapView:mapControls" android:layout_width="fill_parent"

@@ -27,6 +27,7 @@ import java.net.URL;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 
 /**
@@ -40,8 +41,9 @@ public class NetImageStorage {
 
 	private static final String DT = "NetImageStorage";
 
-	private static final String SDCARD = "/sdcard/";
-	private static final String IMG = "/img";
+	private static final String SDCARD = Environment
+			.getExternalStorageDirectory().getAbsolutePath();
+	private static final String IMG = File.separator+"img";
 
 	private static final int IO_BUFFER_SIZE = 1024;
 
@@ -56,7 +58,7 @@ public class NetImageStorage {
 	 *            Context in which the NetImageStorage will work.
 	 */
 	public NetImageStorage(Context context) {
-		path = SDCARD + context.getPackageName() + IMG;
+		path = SDCARD + File.separator + context.getPackageName() + IMG;
 		File dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdirs();

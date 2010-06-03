@@ -32,8 +32,8 @@ import android.widget.Button;
 public class Controls3D extends Button {
 
 	public final static int ROTATE = 0;
-	public final static int MOVE = 1;
-	public final static int ZOOM = 2;
+	public final static int MOVEXY = 1;
+	public final static int MOVEZ = 2;
 
 	private int status;
 
@@ -47,10 +47,10 @@ public class Controls3D extends Button {
 		case ROTATE:
 			this.setBackgroundResource(R.drawable.arrow_rotate_48);
 			break;
-		case MOVE:
+		case MOVEXY:
 			this.setBackgroundResource(R.drawable.arrow_cross_48);
 			break;
-		case ZOOM:
+		case MOVEZ:
 			this.setBackgroundResource(R.drawable.arrow_up_down_48);
 			break;
 		}
