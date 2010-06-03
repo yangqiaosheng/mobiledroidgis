@@ -19,13 +19,19 @@ package mmenning.mobilegis.surface3d;
 import java.io.File;
 import java.io.IOException;
 import java.net.ConnectException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ListIterator;
 
 import mmenning.mobilegis.Preferences;
 import mmenning.mobilegis.R;
 import mmenning.mobilegis.surface3d.GOCADConnector.TSFormatException;
+import mmenning.mobilegis.util.Base64;
+import mmenning.mobilegis.util.LoginData;
+import mmenning.mobilegis.util.LoginDialog;
+import mmenning.mobilegis.util.LoginDialog.LoginDialogListener;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -34,6 +40,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,7 +62,7 @@ import android.widget.TextView;
  * url or file data to display.
  * 
  * @author Mathias Menninghaus
- * @version 08.10.2009
+ * @version 03.06.2010
  * @see GLSurfaceView
  * @see GOCADConnector
  * @see SurfaceRenderer
@@ -68,6 +75,7 @@ public class SurfaceVisualizer extends Activity {
 	private static final int LOADFROMURL_DIALOG = 2;
 	private static final int SAVETOFILE_DIALOG = 4;
 	private static final int SAVING_PROGRESS_DIALOG = 5;
+	private static final int LOGIN_DIALOG = 6;
 
 	private static final int NO_EXCEPTION_TO_SHOW = -1;
 	private int EXCEPTION_DIALOG_MESSAGE = NO_EXCEPTION_TO_SHOW;
@@ -135,6 +143,10 @@ public class SurfaceVisualizer extends Activity {
 	 */
 	private float xstart;
 	private float ystart;
+
+	private static Uri actualUri;
+
+	private LoginData loginDB;
 
 	/*
 	 * create menu. only settings, chooser, filemanager, save to file and load
@@ -204,7 +216,7 @@ public class SurfaceVisualizer extends Activity {
 			 * switch between several states of Controls3D Button
 			 */
 			switch (switchtouchopt.getStatus()) {
-			case Controls3D.MOVE:
+			case Controls3D.MOVEXY:
 				l.setXwalk(l.getXwalk()
 						+ ((event.getX() - xstart) * l.getSensibility()));
 				l.setYwalk(l.getYwalk()
@@ -216,14 +228,13 @@ public class SurfaceVisualizer extends Activity {
 				l.setYrot(l.getYrot()
 						+ ((event.getX() - xstart) * l.getSensibility()));
 				break;
-			case Controls3D.ZOOM:
+			case Controls3D.MOVEZ:
 				l.setZwalk(l.getZwalk()
 						+ ((event.getY() - ystart) * l.getSensibility()));
 				break;
 			}
 			/*
-			 * the last position ist now the actual position -> for the next
-			 * time
+			 * the last position is now the actual position -> for the next time
 			 */
 			xstart = event.getX();
 			ystart = event.getY();
@@ -231,71 +242,6 @@ public class SurfaceVisualizer extends Activity {
 		}
 
 		return super.onTouchEvent(event);
-	}
-
-	/**
-	 * Shows a File Manager Dialog. Because it should display itself again for
-	 * refreshing the list, not showDialog(int) is used.
-	 */
-	private void showFileManagerDialog() {
-		final File[] files = manager.getStoredFiles();
-		final CharSequence[] items = new CharSequence[files.length];
-		for (int i = 0; i < files.length; i++) {
-			items[i] = files[i].getName();
-		}
-		final boolean[] selectedItems = new boolean[files.length];
-
-		AlertDialog.Builder b = new AlertDialog.Builder(this);
-		b.setTitle(this.getString(R.string.manage_your_files));
-		b.setMultiChoiceItems(items, selectedItems,
-				new DialogInterface.OnMultiChoiceClickListener() {
-					public void onClick(DialogInterface dialog, int which,
-							boolean isChecked) {
-						selectedItems[which] = isChecked;
-					}
-				});
-		b.setPositiveButton(R.string.load,
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						dialog.dismiss();
-						if (selectedItems.length != 0) {
-							int cnt = 0;
-							for (boolean b : selectedItems) {
-								if (b)
-									cnt++;
-							}
-							File[] filesToLoad = new File[cnt];
-							for (int i = 0, k = 0; i < files.length; i++) {
-								if (selectedItems[i]) {
-									filesToLoad[k++] = files[i];
-								}
-							}
-							new Thread(new LoadingThread(new LoadingHandler(),
-									null, filesToLoad)).start();
-						}
-					}
-				});
-		b.setNeutralButton(R.string.cancel,
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						dialog.cancel();
-					}
-				});
-		b.setNegativeButton(R.string.delete,
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						dialog.dismiss();
-						if (selectedItems.length != 0) {
-							for (int i = 0; i < files.length; i++) {
-								if (selectedItems[i]) {
-									files[i].delete();
-								}
-							}
-						}
-						SurfaceVisualizer.this.showFileManagerDialog();
-					}
-				});
-		b.create().show();
 	}
 
 	/**
@@ -467,6 +413,59 @@ public class SurfaceVisualizer extends Activity {
 		glView.requestFocus();
 	}
 
+	private void loadFromURL(Uri uri) {
+
+		this.actualUri = uri;
+
+		String urlString = Uri.decode(uri.toString());
+		try {
+			HttpURLConnection con = (HttpURLConnection) new URL(urlString)
+					.openConnection();
+			con.setUseCaches(false);
+			con.connect();
+
+			if (con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+				con.disconnect();
+				String[] login = loginDB.getLogin(actualUri.getHost());
+				if (login == null) {
+
+					this.showDialog(LOGIN_DIALOG);
+					return;
+				} else {
+					Log.d(DT, "Atempts to reconnect");
+					con = (HttpURLConnection) new URL(urlString)
+							.openConnection();
+					con.setUseCaches(false);
+					con.setRequestProperty("Authorization",
+							"basic "
+									+ Base64.encodeBytes((login[LoginData.USER]
+											+ ":" + login[LoginData.PW])
+											.getBytes()));
+					con.connect();
+					if (con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+						con.disconnect();
+						this.showDialog(LOGIN_DIALOG);
+						return;
+
+					}
+				}
+			}
+
+			new Thread(new LoadingThread(new LoadingHandler(), con, null))
+					.start();
+
+		} catch (MalformedURLException ex) {
+			Log.w(DT, ex);
+			EXCEPTION_DIALOG_MESSAGE = R.string.mlfurlex;
+			this.showDialog(EXCEPTION_DIALOG);
+		} catch (IOException ex) {
+			Log.w(DT, ex);
+			EXCEPTION_DIALOG_MESSAGE = R.string.ioexc;
+			this.showDialog(EXCEPTION_DIALOG);
+		}
+
+	}
+
 	/**
 	 * Set up the listeners options using the database connection the listener
 	 * and db-connection must not be null at this moment!
@@ -479,23 +478,100 @@ public class SurfaceVisualizer extends Activity {
 				.toString(), false));
 	}
 
+	/**
+	 * Shows a File Manager Dialog. Because it should display itself again for
+	 * refreshing the list, not showDialog(int) is used.
+	 */
+	private void showFileManagerDialog() {
+		final File[] files = manager.getStoredFiles();
+		final CharSequence[] items = new CharSequence[files.length];
+		for (int i = 0; i < files.length; i++) {
+			items[i] = files[i].getName();
+		}
+		final boolean[] selectedItems = new boolean[files.length];
+
+		AlertDialog.Builder b = new AlertDialog.Builder(this);
+		b.setTitle(this.getString(R.string.manage_your_files));
+		b.setMultiChoiceItems(items, selectedItems,
+				new DialogInterface.OnMultiChoiceClickListener() {
+					public void onClick(DialogInterface dialog, int which,
+							boolean isChecked) {
+						selectedItems[which] = isChecked;
+					}
+				});
+		b.setPositiveButton(R.string.load,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						dialog.dismiss();
+						if (selectedItems.length != 0) {
+							int cnt = 0;
+							for (boolean b : selectedItems) {
+								if (b)
+									cnt++;
+							}
+							File[] filesToLoad = new File[cnt];
+							for (int i = 0, k = 0; i < files.length; i++) {
+								if (selectedItems[i]) {
+									filesToLoad[k++] = files[i];
+								}
+							}
+							new Thread(new LoadingThread(new LoadingHandler(),
+									null, filesToLoad)).start();
+						}
+					}
+				});
+		b.setNeutralButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						dialog.cancel();
+					}
+				});
+		b.setNegativeButton(R.string.delete,
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						dialog.dismiss();
+						if (selectedItems.length != 0) {
+							for (int i = 0; i < files.length; i++) {
+								if (selectedItems[i]) {
+									files[i].delete();
+								}
+							}
+						}
+						SurfaceVisualizer.this.showFileManagerDialog();
+					}
+				});
+		b.create().show();
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		SurfaceVisualizer.this.setContentView(R.layout.surfacevisualizer_clear);
 		/*
 		 * generate a listener to communicate with the renderer
 		 */
+
 		l = new Listener3D();
 
-		/*
-		 * Set up the loadingHandler. If the loadingThread is succesfull it will
-		 * set up the view again with data. If not, it will show several
-		 * AlertDialogs.
-		 */
+		loginDB = new LoginData(this);
 		connect3D = new GOCADConnector();
 		manager = new GOCADFileManager(this);
+
+		Intent i = this.getIntent();
+
+		Uri uri = i.getData();
+		if (i.getAction() != null
+				&& (Intent.ACTION_VIEW).compareTo(i.getAction()) == 0) {
+
+			if (uri.getScheme().compareTo("http") == 0) {
+				this.loadFromURL(uri);
+
+			} else if (uri.getScheme().compareTo("file") == 0) {
+				new Thread(new LoadingThread(new LoadingHandler(), null,
+						new File[] { new File(uri.getPath()) })).start();
+			}
+		}
 	}
 
 	@Override
@@ -512,15 +588,17 @@ public class SurfaceVisualizer extends Activity {
 			b = new AlertDialog.Builder(this);
 			final EditText et = new EditText(this);
 			b.setView(et);
+			et
+					.setText("http://feanor.igf.uos.de:8182/projects/GeoTopo3D/Balingen3D/1.ts");
 			b.setTitle(R.string.load_url);
 			b.setPositiveButton(R.string.confirm,
 					new AlertDialog.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
 
-							new Thread(new LoadingThread(new LoadingHandler(),
-									et.getText().toString(), null)).start();
+							loadFromURL(Uri.parse(et.getText().toString()));
 						}
+
 					});
 			b.setNegativeButton(R.string.cancel,
 					new AlertDialog.OnClickListener() {
@@ -534,7 +612,12 @@ public class SurfaceVisualizer extends Activity {
 		case EXCEPTION_DIALOG:
 			b = new AlertDialog.Builder(this);
 			b.setTitle(this.getString(R.string.loadingfailure));
-			b.setMessage(this.getString(EXCEPTION_DIALOG_MESSAGE))
+
+			b
+					.setMessage(
+							this
+									.getString(EXCEPTION_DIALOG_MESSAGE != NO_EXCEPTION_TO_SHOW ? EXCEPTION_DIALOG_MESSAGE
+											: R.string.loadingfailure))
 					.setCancelable(false).setPositiveButton(R.string.confirm,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
@@ -573,12 +656,65 @@ public class SurfaceVisualizer extends Activity {
 			savingDialog.setMessage(this.getString(R.string.saving__));
 			savingDialog.setCancelable(false);
 			return savingDialog;
+		case LOGIN_DIALOG:
+			LoginDialog loginDialog = new LoginDialog(this);
+			loginDialog.setLoginDialogListener(new LoginDialogListener() {
+
+				@Override
+				public void onCancel(LoginDialog dialog) {
+					dialog.dismiss();
+				}
+
+				@Override
+				public void onConfirm(LoginDialog dialog, String username,
+						String password, boolean savepw) {
+					dialog.dismiss();
+
+					String urlString = Uri.decode(actualUri.toString());
+					try {
+						HttpURLConnection con = (HttpURLConnection) new URL(
+								urlString).openConnection();
+						con.setUseCaches(false);
+						con
+								.setRequestProperty("Authorization",
+										"basic "
+												+ Base64.encodeBytes((username
+														+ ":" + password)
+														.getBytes()));
+						con.connect();
+						if (con.getResponseCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+							con.disconnect();
+							EXCEPTION_DIALOG_MESSAGE = R.string.wronguserpw;
+							SurfaceVisualizer.this.showDialog(EXCEPTION_DIALOG);
+						} else {
+							if (savepw) {
+								loginDB.insertLogin(actualUri.getHost(),
+										username, password);
+							}
+
+							new Thread(new LoadingThread(new LoadingHandler(),
+									con, null)).start();
+						}
+					} catch (MalformedURLException ex) {
+						Log.w(DT, ex);
+						EXCEPTION_DIALOG_MESSAGE = R.string.mlfurlex;
+						SurfaceVisualizer.this.showDialog(EXCEPTION_DIALOG);
+					} catch (IOException ex) {
+						Log.w(DT, ex);
+						EXCEPTION_DIALOG_MESSAGE = R.string.ioexc;
+						SurfaceVisualizer.this.showDialog(EXCEPTION_DIALOG);
+					}
+				}
+			});
+			return loginDialog;
 		}
 		return super.onCreateDialog(id);
 	}
 
 	@Override
 	protected void onPause() {
+		loginDB.close();
+
 		if (glView != null)
 			glView.onPause();
 		super.onPause();
@@ -594,6 +730,10 @@ public class SurfaceVisualizer extends Activity {
 						.getString(this.EXCEPTION_DIALOG_MESSAGE));
 			}
 			break;
+		case LOGIN_DIALOG:
+			LoginDialog loginDialog = (LoginDialog) dialog;
+			loginDialog.setTitle(this.getString(R.string.loginto) + ": "
+					+ (actualUri != null ? actualUri.getHost() : ""));
 		}
 		super.onPrepareDialog(id, dialog);
 	}
@@ -601,7 +741,8 @@ public class SurfaceVisualizer extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
+		loginDB.open();
 		/*
 		 * actualize the listener onResume from the Setting3D Activity
 		 */
@@ -697,16 +838,17 @@ public class SurfaceVisualizer extends Activity {
 
 		private Handler handler;
 
-		private String url;
+		private HttpURLConnection input;
 		private File[] files;
 
-		public LoadingThread(Handler handler, String url, File[] filesToLoad) {
-			if (url != null && filesToLoad != null) {
+		public LoadingThread(Handler handler, HttpURLConnection input,
+				File[] filesToLoad) {
+			if (input != null && filesToLoad != null) {
 				throw new IllegalArgumentException(
-						"can only load either from url or from file");
+						"can only load either from strean or from file");
 			}
 			this.handler = handler;
-			this.url = url;
+			this.input = input;
 			this.files = filesToLoad;
 		}
 
@@ -717,8 +859,8 @@ public class SurfaceVisualizer extends Activity {
 			 * read data from urls
 			 */
 			try {
-				if (url != null) {
-					connect3D.requestTS(new String[] { url });
+				if (input != null) {
+					connect3D.requestTS(input);
 				} else {
 					connect3D.requestTS(files);
 				}
@@ -791,8 +933,6 @@ public class SurfaceVisualizer extends Activity {
 				Log.w(DT, e);
 				handler.sendEmptyMessage(IOEX);
 			}
-
 		}
-
 	}
 }

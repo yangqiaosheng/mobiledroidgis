@@ -26,6 +26,8 @@ import java.util.LinkedList;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Environment;
+import android.util.Log;
 
 /**
  * Helper Class to manage Files in GOCAD Format. 
@@ -42,13 +44,14 @@ public class GOCADFileManager {
 
 	public static final int TS = 1;
 
-	private static final String SDCARD = "/sdcard/";
-	private static final String GOCAD = "/gocad";
+	private static final String SDCARD = Environment.getExternalStorageDirectory().getAbsolutePath();
+	private static final String GOCAD = File.separator+"gocad";
 
 	private File dir;
 
 	public GOCADFileManager(Context context) {
-		String path = SDCARD + context.getPackageName() + GOCAD;
+		Log.d(DT, SDCARD);
+		String path = SDCARD + File.separator + context.getPackageName() + GOCAD;
 		dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdirs();

@@ -163,4 +163,10 @@
 	
 	<string name="enablesatellitetitle">Satellite Tiles</string>
 	<string name="enablesatellitesummary">Enable Satellite Tiles. May change the zoom level.</string>
+	
+	<string name="username">Username</string>
+	<string name="password">Password</string>
+	<string name="savepassword">Save Password</string>
+	<string name="loginto">Login to</string>
+	<string name="wronguserpw">Wrong User Or Password</string>
 </resources>
