@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2010 by Mathias Menninghaus (mmenning (at) uos (dot) de)
+ * Copyright 2012 Mathias Menninghaus (mathias.menninghaus (at) googlemail (dot) com)
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package mmenning.mobilegis.map.sos;
 
@@ -372,19 +371,19 @@ public class SOSActivity extends Activity {
 
 	private class MySOSViewListener implements SOSViewListener {
 
-		@Override
+		
 		public void onColorChanged(SOSView view, int newColor) {
 			db.setColor(newColor, view.getSosID());
 		}
 
-		@Override
+		
 		public void onDelete(SOSView view) {
 			db.deleteSOS(view.getSosID());
 			views.remove(view.getSosID());
 			root.removeView(view);
 		}
 
-		@Override
+		
 		public void onFeatureClicked(SOSView view) {
 			final int sosID = view.getSosID();
 			final int selectedOffering = db.getSelectedOffering(sosID);
@@ -414,7 +413,7 @@ public class SOSActivity extends Activity {
 
 		}
 
-		@Override
+		
 		public void onOfferingClicked(SOSView view) {
 			final int sosID = view.getSosID();
 			final int[] offeringIDs = db.getOfferingIDs(sosID);
@@ -432,7 +431,7 @@ public class SOSActivity extends Activity {
 			d.show();
 		}
 
-		@Override
+		
 		public void onPropertyClicked(SOSView view) {
 			final int sosID = view.getSosID();
 			final int offeringID = db.getSelectedOffering(sosID);
@@ -462,7 +461,7 @@ public class SOSActivity extends Activity {
 			d.show();
 		}
 
-		@Override
+		
 		public void onUpdateAll(final SOSView view) {
 
 			new Thread() {
@@ -473,7 +472,7 @@ public class SOSActivity extends Activity {
 
 		}
 
-		@Override
+		
 		public void onUpdateAvailable(final SOSView view) {
 			new Thread() {
 				public void run() {
@@ -483,7 +482,7 @@ public class SOSActivity extends Activity {
 
 		}
 
-		@Override
+		
 		public void onVisibleChanged(SOSView view, boolean visible) {
 			db.setVisibility(visible, view.getSosID());
 

@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2010 by Mathias Menninghaus (mmenning (at) uos (dot) de)
+ * Copyright 2012 Mathias Menninghaus (mathias.menninghaus (at) googlemail (dot) com)
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package mmenning.mobilegis.map.sos;
 
@@ -97,21 +96,21 @@ public class SOSView extends ViewWithContextAndDialog {
 
 		property = (Button) this.findViewById(R.id.sosview_property);
 		property.setOnClickListener(new OnClickListener() {
-			@Override
+			
 			public void onClick(View v) {
 				SOSView.this.listen.onPropertyClicked(SOSView.this);
 			}
 		});
 		feature = (Button) this.findViewById(R.id.sosview_feature);
 		feature.setOnClickListener(new OnClickListener() {
-			@Override
+			
 			public void onClick(View v) {
 				SOSView.this.listen.onFeatureClicked(SOSView.this);
 			}
 		});
 		offering = (Button) this.findViewById(R.id.sosview_offering);
 		offering.setOnClickListener(new OnClickListener() {
-			@Override
+			
 			public void onClick(View v) {
 				SOSView.this.listen.onOfferingClicked(SOSView.this);
 			}
@@ -127,7 +126,7 @@ public class SOSView extends ViewWithContextAndDialog {
 		CheckBox visible = (CheckBox) this.findViewById(R.id.sosview_visible);
 		visible.setChecked(sos.visible);
 		visible.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
+			
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				SOSView.this.listen.onVisibleChanged(SOSView.this, isChecked);
@@ -137,7 +136,7 @@ public class SOSView extends ViewWithContextAndDialog {
 		CheckBox expand = (CheckBox) this.findViewById(R.id.sosview_expand);
 		expand.setChecked(false);
 		expand.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
+			
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
 				SOSView.this.expandOrMinimize(isChecked);

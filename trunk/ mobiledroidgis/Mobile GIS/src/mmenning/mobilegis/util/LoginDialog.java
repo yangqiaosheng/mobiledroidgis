@@ -1,3 +1,18 @@
+/*
+ * Copyright 2012 Mathias Menninghaus (mathias.menninghaus (at) googlemail (dot) com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package mmenning.mobilegis.util;
 
 import mmenning.mobilegis.R;
@@ -44,7 +59,7 @@ public class LoginDialog extends Dialog {
 		Button confirm = (Button) this.findViewById(R.id.login_confirm);
 		confirm.setOnClickListener(new Button.OnClickListener() {
 
-			@Override
+			
 			public void onClick(View arg0) {
 				loginDialogListener.onConfirm(LoginDialog.this, username
 						.getText().toString(), password.getText().toString(),
@@ -56,7 +71,7 @@ public class LoginDialog extends Dialog {
 		Button cancel = (Button) this.findViewById(R.id.login_cancel);
 		cancel.setOnClickListener(new Button.OnClickListener() {
 
-			@Override
+			
 			public void onClick(View arg0) {
 
 				loginDialogListener.onCancel(LoginDialog.this);
