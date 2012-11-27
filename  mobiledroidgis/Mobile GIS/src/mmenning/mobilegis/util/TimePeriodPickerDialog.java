@@ -1,18 +1,17 @@
 /*
- * Copyright (C) 2010 by Mathias Menninghaus (mmenning (at) uos (dot) de)
+ * Copyright 2012 Mathias Menninghaus (mathias.menninghaus (at) googlemail (dot) com)
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package mmenning.mobilegis.util;
 
@@ -69,7 +68,6 @@ public class TimePeriodPickerDialog extends AlertDialog {
 
 		confirm = (Button) this.findViewById(R.id.timeperiod_confirm);
 		confirm.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				listen.onTimePeriodChanged(TimePeriodPickerDialog.this, start
 						.getTime(), end.getTime());
@@ -82,7 +80,6 @@ public class TimePeriodPickerDialog extends AlertDialog {
 		startdatepicker.init(start.get(Calendar.YEAR), start
 				.get(Calendar.MONTH), start.get(Calendar.DAY_OF_MONTH),
 				new OnDateChangedListener() {
-					@Override
 					public void onDateChanged(DatePicker view, int year,
 							int monthOfYear, int dayOfMonth) {
 						start.set(year, monthOfYear, dayOfMonth);
@@ -97,7 +94,7 @@ public class TimePeriodPickerDialog extends AlertDialog {
 		starttimepicker.setCurrentMinute(start.get(Calendar.MINUTE));
 		starttimepicker.setOnTimeChangedListener(new OnTimeChangedListener() {
 
-			@Override
+			
 			public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
 				start.set(Calendar.HOUR_OF_DAY, hourOfDay);
 				start.set(Calendar.MINUTE, minute);
@@ -110,7 +107,7 @@ public class TimePeriodPickerDialog extends AlertDialog {
 		startdate = (Button) this.findViewById(R.id.timeperiod_startdate);
 		startdate.setText(formatDate(start));
 		startdate.setOnClickListener(new View.OnClickListener() {
-			@Override
+			
 			public void onClick(View v) {
 				startdatepicker.setVisibility(View.VISIBLE);
 				starttimepicker.setVisibility(View.GONE);
@@ -119,7 +116,7 @@ public class TimePeriodPickerDialog extends AlertDialog {
 		starttime = (Button) this.findViewById(R.id.timeperiod_starttime);
 		starttime.setText(formatTime(start));
 		starttime.setOnClickListener(new View.OnClickListener() {
-			@Override
+			
 			public void onClick(View v) {
 				startdatepicker.setVisibility(View.GONE);
 				starttimepicker.setVisibility(View.VISIBLE);
@@ -130,7 +127,7 @@ public class TimePeriodPickerDialog extends AlertDialog {
 				.findViewById(R.id.timeperiod_enddatepicker);
 		enddatepicker.init(end.get(Calendar.YEAR), end.get(Calendar.MONTH), end
 				.get(Calendar.DAY_OF_MONTH), new OnDateChangedListener() {
-			@Override
+			
 			public void onDateChanged(DatePicker view, int year,
 					int monthOfYear, int dayOfMonth) {
 				end.set(year, monthOfYear, dayOfMonth);
@@ -144,7 +141,7 @@ public class TimePeriodPickerDialog extends AlertDialog {
 		endtimepicker.setCurrentHour(end.get(Calendar.HOUR_OF_DAY));
 		endtimepicker.setCurrentMinute(end.get(Calendar.MINUTE));
 		endtimepicker.setOnTimeChangedListener(new OnTimeChangedListener() {
-			@Override
+			
 			public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
 				end.set(Calendar.HOUR_OF_DAY, hourOfDay);
 				end.set(Calendar.MINUTE, minute);
@@ -157,7 +154,7 @@ public class TimePeriodPickerDialog extends AlertDialog {
 		enddate = (Button) this.findViewById(R.id.timeperiod_enddate);
 		enddate.setText(formatDate(end));
 		enddate.setOnClickListener(new View.OnClickListener() {
-			@Override
+			
 			public void onClick(View v) {
 				enddatepicker.setVisibility(View.VISIBLE);
 				endtimepicker.setVisibility(View.GONE);
@@ -167,7 +164,7 @@ public class TimePeriodPickerDialog extends AlertDialog {
 		endtime = (Button) this.findViewById(R.id.timeperiod_endtime);
 		endtime.setText(formatTime(end));
 		endtime.setOnClickListener(new View.OnClickListener() {
-			@Override
+			
 			public void onClick(View v) {
 				enddatepicker.setVisibility(View.GONE);
 				endtimepicker.setVisibility(View.VISIBLE);
