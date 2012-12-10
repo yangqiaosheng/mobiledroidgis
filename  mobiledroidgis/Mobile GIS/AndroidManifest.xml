@@ -40,4 +40,8 @@
 		<activity android:name=".map.sos.MeasurementActivity"
 			android:label="@string/sos" />
 	</application>
+	<!-- ItacaSoft 2012-12-10: compatibility with larger screens -->
+	<supports-screens android:smallScreens="true"
+		android:normalScreens="true" android:largeScreens="true"
+		android:anyDensity="true" android:resizeable="true"></supports-screens>
 </manifest>
