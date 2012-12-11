@@ -17,6 +17,8 @@ package mmenning.mobilegis.map.wms;
 
 import java.util.HashSet;
 
+import mmenning.mobilegis.R;
+
 import mmenning.mobilegis.database.NetImageStorage;
 import mmenning.mobilegis.database.SQLiteOnSDCard;
 import android.content.ContentValues;
@@ -127,6 +129,9 @@ public class WMSDB {
 			+ "" + LAYER_name + " TEXT, " + "" + LAYER_title + " TEXT, " + ""
 			+ LAYER_visible + " INTEGER, " + LAYER_wms + " INTEGER)";
 
+        //Itacasoft 2012-12: default wms defined in R.string
+        private String default_wms_url = "DUMMY";
+        
 	/**
 	 * Helper Class to manage connection and first-time generation of the
 	 * database
@@ -151,6 +156,7 @@ public class WMSDB {
 	public WMSDB(Context ctx) {
 		this.context = ctx;
 		DBHelper = new DatabaseHelper(context);
+                default_wms_url = ctx.getString(R.string.default_wms_url);
 	}
 
 	/**
@@ -188,6 +194,19 @@ public class WMSDB {
 			wmsID = c.getInt(0);
 
 			insertLayer(in.rootLayer, ROOTLAYER, wmsID);
+                        
+                        //Itacasoft 2012-12: default wms (demo) should be visible soon and easily 
+                        // to a potential customer/user
+                        if (in.getMapURL.startsWith(default_wms_url))
+                        {
+                            setSRS(in.rootLayer.ID, WMSUtils.idealSRS);                            
+                            for (int i=0; i<in.rootLayer.parsedLayers.size(); i++)
+                            {
+                                setLayerVisibility(in.rootLayer.parsedLayers.get(i).ID, true);
+                                setSRS(in.rootLayer.parsedLayers.get(i).ID, WMSUtils.idealSRS);
+                            }
+                        }
+                        
 
 		} else {
 			c.moveToFirst();
@@ -743,11 +762,12 @@ public class WMSDB {
 		ContentValues values = getLayerContentValues(parsedLayer, wmsID);
 
 		final int rootID = getNextlayerID();
-
+                //Itacasoft 2012-12: store the ID
+                parsedLayer.ID = rootID;
 		values.put(LAYER_rootLayer, rootlayerID);
 		values.put(ID, rootID);
-		values.put(LAYER_selectedSRS, NOSRS);
-
+                values.put(LAYER_selectedSRS, NOSRS);
+                
 		db.insert(LAYER_TABLE, null, values);
 
 		NetImageStorage nis = new NetImageStorage(this.context);
