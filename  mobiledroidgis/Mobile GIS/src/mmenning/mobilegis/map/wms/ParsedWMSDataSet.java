@@ -38,7 +38,7 @@ public class ParsedWMSDataSet {
 	public String title;
 	public String description;
 	public String getMapURL;
-
+        
 	public boolean supportsPNG;
 
 	/**
@@ -98,7 +98,9 @@ public class ParsedWMSDataSet {
 		public String description;
 		public String name;
 		public String title;
-
+                //Itacasoft 2012-12: ID should be stored
+                public Integer ID;
+                
 		/**
 		 * Returns name and title of this ParsedLayer
 		 */

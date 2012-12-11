@@ -244,7 +244,7 @@ public class WMSActivity extends Activity {
 			AlertDialog.Builder b = new AlertDialog.Builder(this);
 			final EditText et = new EditText(this);
 			b.setView(et);
-			et.setText("http://www.pegelonline.wsv.de/webservices/gis/wms");
+			et.setText(R.string.default_wms_url);
 			b.setTitle(R.string.load_wms);
 			b.setPositiveButton(R.string.confirm,
 					new AlertDialog.OnClickListener() {

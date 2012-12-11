@@ -34,7 +34,11 @@ public class WMSUtils {
 	/**
 	 * Ideal EPSG Code to match the maps Projection
 	 */
-	public static final String idealSRS = "EPSG:900913";
+	//ItacaSoft 2012-12: according to http://wiki.openstreetmap.org/wiki/EPSG:3857
+        // and other sources, Google Maps uses EPSG 3857 (Spherical Mercator)
+        // so the ideal SRS should be 3857
+        //public static final String idealSRS = "EPSG:900913";
+        public static final String idealSRS = "EPSG:3857";
 
 	/**
 	 * Recommended EPSG Code to match the maps Projection
@@ -44,11 +48,18 @@ public class WMSUtils {
 	/**
 	 * width of the WMS Parts
 	 */
-	public static final int WIDTH = 160;
+        //public static final int WIDTH = 160; 
+        //ItacaSoft 2012/12: in 1280x800 (common tablets) devices 160 size tiles cause the list to 
+        //continually discard useful tiles, while making the tile bigger, a shorter list is required.
+        //E.g.: 160 --> on 1280x800 devices --> 8 x 5 = 40 tiles required for the cache
+        //      256 --> on 1280x800 devices --> 5 x 4 = 20 tiles required for the cache
+        //moreover, the server is happier to support half of http requests
+	public static final int WIDTH = 256; 
 	/**
 	 * height of the WMS Parts
 	 */
-	public static final int HEIGHT = 160;
+        //public static final int HEIGHT = 160;
+	public static final int HEIGHT = 256;
 
 	public static final int HALFWIDTH = WIDTH / 2;
 	public static final int HALFHEIGHT = HEIGHT / 2;

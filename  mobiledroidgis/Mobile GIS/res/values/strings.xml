@@ -169,4 +169,5 @@
 	<string name="savepassword">Save Password</string>
 	<string name="loginto">Login to</string>
 	<string name="wronguserpw">Wrong User Or Password</string>
+	<string name="default_wms_url">"http://www.itacasoft.com/demo/itacamap/srv/itacamapsrv.exe"</string>        
 </resources>

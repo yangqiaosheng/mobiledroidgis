@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+ Copyright (C) 2012 by Fabrizio Vita (fabrizio (dot) vita (at) itacasoft (dot) com)
+ 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+--> 
+<resources>
+	<string name="app_name">Geo Viewer</string>
+	<string name="preferences">Opzioni</string>
+	<string name="choose_layer">Scegli un livello</string>
+	<string name="ogl_view">Vista 3D</string>
+	<string name="map_view">Mappa</string>
+	<string name="chart_view">Grafici</string>
+	<string name="layers">Livelli</string>
+
+	<string name="filemanager">Gestione File</string>
+	<string name="manage_your_files">Gestisci i Tuoi File</string>
+
+	<string name="surfacevisualizer_clear_text">Carica i dati dalla rete o dal disco</string>
+	<string name="surfacevisualizer_default_name">
+		Nessun elemento disponibile
+	</string>
+	<string name="failure">Fallimento</string>
+	<string name="fill">riempi</string>
+	<string name="visible">visibile</string>
+
+	<string name="load_url">Carica da URL</string>
+	<string name="load_file">Carica da File</string>
+	<string name="save">Salva</string>
+	<string name="save_to_file">Salva su File</string>
+	<string name="select_file">Seleziona un File</string>
+	<string name="choose_layer_menu">Scegli un menu di livello</string>
+
+	<string name="confirm">Conferma</string>
+	<string name="loadingfailure">Caricamento fallito</string>
+	<string name="numberformatexc">Formato numero non valido nei dati richiesti.</string>
+	<string name="tsexc">I dati richiesti non sono nel formato GOCAD.</string>
+	<string name="ioexc">Connessione fallita. Prova ancora più tardi, verifica la tua connessione o contatta il supporto del server per questo servizio.</string>
+	<string name="parsconfigex">Mi dispiace! Parser Configuration Exception. Per favore, informami di questo.</string>
+	<string name="feedex">Eccezione durante il parsing del Feed.</string>
+	<string name="illargex">Url non valida.</string>
+	<string name="saxex">Mi dispiace! Eccezione durante il parsing. Verrifica il supporto del server per questo servizio.</string>
+	<string name="mlfurlex">La URL richiesta non è valida.</string>
+	<string name="connectex">Connessione rifiutata. Prova ancora più tardi o verifica la tua connessione.</string>
+	<string name="unknownhex">L\'Host richiesto è sconosciuto. Prova ancora più tardi o verifica la tua connessione.</string>
+	<string name="load">Carica</string>
+	<string name="cancel">Annulla</string>
+	<string name="up">Su</string>
+	<string name="down">Giù</string>
+	<string name="transparency">Trasparenza</string>
+
+	<string name="context_menu">Menu Contestuale</string>
+
+	<string name="loading..">Sto caricando, attendere prego</string>
+	<string name="saving..">Sto salvando, attendere prego</string>
+
+	<string name="latitude">Latitudine</string>
+	<string name="longitude">Longitudine</string>
+
+	<string name="no_location_provider_enabled">Nessun Location Provider disponibile</string>
+	<string name="my_location">La mia posizione</string>
+	<string name="reset_position">Resetta la posizione</string>
+
+	<string name="provider_disabled">Il provider è stato disabilitato</string>
+	<string name="provider_enabled">Il provider è stato abilitato</string>
+
+	<string name="changed_to_network">Il Location Provider è stato modificato in Network</string>
+	<string name="changed_to_gps">Il Location Provider è stato modificato in GPS</string>
+	<string name="provider_temporarily_unavailable">Il Provider è temporaneamente non disponibile</string>
+
+	<string name="fullgraphics_title">Preferenze di Grafica</string>
+	<string name="fullgraphics_summary">Abilita Gourad Shading, Lighting, Dithering e
+		Blending</string>
+
+	<string name="wms">Web Map Service</string>
+	<string name="layerview_attribution_source">Sorgente Mappa</string>
+	<string name="containingLayers">Che contiene i livelli</string>
+	<string name="delete">Cancella</string>
+	<string name="addwms">Aggiungi un Web Map Service</string>
+	<string name="srs_not_definite">l\' SRS selezionato non è definito per i livelli visibili</string>
+	<string name="no_srs">Nessun SRS selezionato</string>
+	<string name="no_png">Questo WMS non supporta mappe nel formato png
+	</string>
+	<string name="wrongversion">Questo WMS non è della versione 1.1.1 richiesta</string>
+	<string name="no_getMapURL">Non è definita una URL per la richiesta GetMap</string>
+	<string name="srs_not_ideal">L\'SRS selezionato non è l\'ideale per la Mappa</string>
+	<string name="srs_not_recommended">L\'SRS selezionato non è quello raccomandato per la Mappa</string>
+	<string name="select_srs">Seleziona un SRS</string>
+	<string name="load_wms">Carica un WMS</string>
+	<string name="wms_summary">Gestisci i Web Map Services. Cambia la visibilità dei servizi e dei livelli, il loro Spatial Reference System o aggiungine uno nuovo
+	</string>
+
+	<string name="add_georss">Aggiungi un GeoRSS Feed</string>
+	<string name="load_georssfeed">Carica GeoRSS Feed</string>
+	<string name="georss">GeoRSS Feeds</string>
+	<string name="synchronize">Sincronizza</string>
+	<string name="markread">Marchia tutti come letti</string>
+
+	<string name="maxentries_title">Capacità</string>
+	<string name="maxentries_summary">Il massimo numero di elementi che saranno immagazzinati localmente</string>
+	<string name="choosecolor">Imposta Colore</string>
+	<string name="gobackfast">Ritorna alla Mappa</string>
+	<string name="showinmap">Mostra in Mappa</string>
+	<string name="showoriginalentry">Elemento originale</string>
+
+	<string name="enablegooglemaps_title">Google Maps</string>
+	<string name="enablegooglemaps_summary">Mostra Google Maps nella MapView</string>
+
+	<string name="enabletransparency_title">Trasparenza</string>
+	<string name="enabletransparency_summary">Rendi tutti i livelli Web Map Service semitrasparenti
+	</string>
+
+	<string name="config_overlays">Configurzaione Overlays</string>
+
+	<string name="choose_feature">Scegli una Caratteristica</string>
+	<string name="updateall">Aggiorna tutte le Misure</string>
+	<string name="updateavailable">Aggiorna le Misure disponibili</string>
+
+	<string name="load_sos">Carica un SOS</string>
+	<string name="add_sos">Aggiungi un SOS</string>
+	<string name="choose_offering">Scegli un\'Offerta</string>
+	<string name="choose_property">Scegli una Proprietà</string>
+
+	<string name="sos">Sensor Observation Service</string>
+
+	<string name="requestperiodtitle">Periodo Richiesto</string>
+	<string name="requestperiodsummary">Periodo massimo per ogni richiesta per un SOS</string>
+
+	<string name="storeperiodtitle">Periodo di Immagazzinamento</string>
+	<string name="storeperiodsummary">Periodo massimo di immagazzinamento locale dei dati</string>
+
+	<string name="period">Periodo</string>
+
+	<string name="measurementactivity_failtext">Non esiste tale Misura immagazzinata. Clicca il bottone sotto
+		per provare a ricaricare. Ricorda il periodo di tempo della tua richiesta.
+	</string>
+
+	<string name="no_data">No Data</string>
+	<string name="invalid_pos_warning">Questa Misura non contiene GeoDati validi per essere mostrati in mappa. Questo servizio deve fornire WGS84 (EPSG:4326)</string>
+	<string name="warning">Attenzione</string>
+	<string name="deleting...">Sto cancellando, attendere prego.</string>
+	
+	<string name="enablesatellitetitle">Mappe Satellitari</string>
+	<string name="enablesatellitesummary">Abilita Mappe Satellitari. Potrebbe modificare il livello di zoom.</string>
+	
+	<string name="username">Utente</string>
+	<string name="password">Password</string>
+	<string name="savepassword">Salva Password</string>
+	<string name="loginto">Accesso a</string>
+	<string name="wronguserpw">Utente o Password errata</string>
+	<string name="default_wms_url">"http://www.itacasoft.com/demo/itacamap/srv/itacamapsrv.exe"</string>                
+</resources>
