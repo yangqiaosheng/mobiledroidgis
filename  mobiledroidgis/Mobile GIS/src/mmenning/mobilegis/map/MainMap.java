@@ -302,14 +302,19 @@ public class MainMap extends MapActivity {
 				map.getOverlays().add(myLocation);
 				myLocationUpdate = true;
 				myLocation.enableMyLocation();
+                                // Fabrizio 2012-12-22: the GPS needs time to get the location
+                                myLocation.runOnFirstFix(new Runnable() {
+                                    public void run() {             
+                                        findMe();
+                                    }           
+                                });                        
+                                
 			}
 			/*
 			 * else it will only animate to the actual users position
 			 */
-			GeoPoint g = myLocation.getMyLocation();
-			if (g != null)
-				mc.setCenter(g);
-			return true;
+                        findMe();
+                        return true;
 		case LAYERS:
 			this.showDialog(LAYERMENU_DIALOG);
 			return true;
@@ -321,6 +326,23 @@ public class MainMap extends MapActivity {
 		return super.onMenuItemSelected(featureId, item);
 	}
 
+        /*
+         * Get the user location and zoom to it
+         */
+        public void findMe() 
+        {
+            /*
+             * Fabrizio 2012-12: note that te first time it may not work
+             * because GPS needs time to get a fix
+             */
+            GeoPoint g = myLocation.getMyLocation();
+            if (g != null)
+            {
+                mc.setCenter(g);
+            }
+        }
+        
+        
 	@Override
 	protected boolean isRouteDisplayed() {
 		/*
